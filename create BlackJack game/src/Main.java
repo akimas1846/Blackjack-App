@@ -14,8 +14,9 @@ public class Main {
             Heart[i].transrate(i);
             Diamond[i] = new Card(i + 1);
             Diamond[i].transrate(i);
+            Clover[i].debug();
         }
 
-        
+
     }
 }
