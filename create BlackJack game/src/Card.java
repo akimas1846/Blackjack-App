@@ -42,5 +42,4 @@ public class Card {
         System.out.println(cardPoint);
         System.out.println(cardName);
     }
-
 }
