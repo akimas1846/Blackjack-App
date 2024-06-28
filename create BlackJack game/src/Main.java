@@ -9,6 +9,7 @@ public class Main {
                 deck[j][i].debug();
             }
         }
-
+        Ui ui = new Ui();
+        ui.show();
     }
 }
