@@ -1,10 +1,13 @@
-public class Player {
-    public void handClear(){
+class Player extends Human {
 
+    
+    
+    public void handClear() {
+        clear(point);
     }
 
     public void open(){
-
+        System.out.println(pl.point);
     }
 
     public void allOpen(){

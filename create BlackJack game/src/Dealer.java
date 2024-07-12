@@ -1,9 +1,5 @@
-public class Dealer {
-    private static Dealer instance = new Dealer();
+class Dealer extends Human{
 
-    public static Dealer getInstance(){
-        return instance;
-    }
 
     private Dealer(){
     }
