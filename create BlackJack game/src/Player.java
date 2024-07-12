@@ -1,33 +1,31 @@
 class Player extends Human {
-
-    
     
     public void handClear() {
         clear(point);
     }
 
     public void open(){
-        System.out.println(pl.point);
+        System.out.println(point);
     }
 
     public void allOpen(){
 
     }
 
-    public boolean possibleSplit(){
-
+    public boolean possibleSplit() {
+        return true;
     }
 
-    public boolean possibleDoubleDown(){
-
+    public boolean possibleDoubleDown() {
+        return true;
     }
 
     public void split(){
 
     }
 
-    public Integer getPocketMoney(){
-
+    public int getPocketMoney() {
+        return 0;
     }
 
     public void setPocketMoney(){
@@ -38,7 +36,7 @@ class Player extends Human {
 
     }
 
-    public boolean isBurst(){
-
+    public boolean isBurst() {
+        return true;
     }
 }

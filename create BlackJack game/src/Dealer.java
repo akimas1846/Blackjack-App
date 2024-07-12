@@ -1,15 +1,15 @@
-class Dealer extends Human{
+import java.util.Vector;
 
-
-    private Dealer(){
-    }
+class Dealer extends Human {
+    
+    Vector<Integer> point = new Vector();
 
     public void open(){
 
     }
 
-    private int getOpenOneScore(){
-
+    private int getOpenOneScore() {
+        return 0;
     }
 
     public void drawOver17(){

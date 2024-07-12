@@ -29,13 +29,17 @@ public class Card {
             case 13:
                 UniqueCardsNumber = 'K';
                 break;
-            
+
             default:
                 UniqueCardsNumber = ' ';
                 break;
         }
     }
-
+    
+    int returnPoint() 
+    {
+        return cardPoint;
+    }
     void debug() {
         System.out.println(cardNumber);
         System.out.println(UniqueCardsNumber);
