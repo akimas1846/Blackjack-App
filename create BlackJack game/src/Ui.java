@@ -139,9 +139,9 @@ public class Ui {
 
         rulesPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        addRuleImage("..\\image\\Rule1.png");
-        addRuleImage("..\\image\\Rule2.png");
-        addRuleImage("..\\image\\Rule3.png");
+        addRuleImage("create BlackJack game\\image\\Rule1.png");
+        addRuleImage("create BlackJack game\\image\\Rule2.png");
+        addRuleImage("create BlackJack game\\image\\Rule3.png");
     }
 
     private void createGameOverPanel() {
@@ -203,8 +203,8 @@ public class Ui {
         CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
         cl.show(frame.getContentPane(), "Game");
 
-        setCardImage(cardLabel1, "..\\image\\Back.png", 100, 225);
-        setCardImage(cardLabel2, "..\\image\\Back.png", 100, 225);
+        setCardImage(cardLabel1, "create BlackJack game\\image\\Back.png", 100, 225);
+        setCardImage(cardLabel2, "create BlackJack game\\image\\Back.png", 100, 225);
     }
 
     private void showRulesPanel() {
@@ -255,8 +255,8 @@ public class Ui {
     }
 
     private void addBetImages() {
-        String[] betImagePaths = { "..\\image\\Bet1.png", "..\\image\\Bet2.png", "..\\image\\Bet3.png",
-                "..\\image\\Bet4.png" };
+        String[] betImagePaths = { "create BlackJack game\\image\\Bet1.png", "create BlackJack game\\image\\Bet2.png", "create BlackJack game\\image\\Bet3.png",
+                "create BlackJack game\\image\\Bet4.png" };
         int width = 100;
         int height = 225;
 

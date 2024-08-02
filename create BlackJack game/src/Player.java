@@ -29,20 +29,20 @@ class Player extends Human {
 	手札の初期化後、カードを2枚引いて手札に加える
 	deck デッキ
 	*/
-	@Override
-	public void firstAction(Deck deck){
-		//初期状態に戻す
-		betMoney = 0;
-		setStand(false);
-		setBurst(false);
-		/*
-		setSplit(false);
-		setSplitStand (false);
-		setSplitBurst(false);
-		*/
+	// @Override
+	// public void firstAction(Deck deck){
+	// 	//初期状態に戻す
+	// 	betMoney = 0;
+	// 	setStand(false);
+	// 	setBurst(false);
+	// 	/*
+	// 	setSplit(false);
+	// 	setSplitStand (false);
+	// 	setSplitBurst(false);
+	// 	*/
 
-		super.firstAction(deck);
-	}
+	// 	super.firstAction(deck);
+	// }
 
 	/*
 	手札の初期化

@@ -15,7 +15,7 @@ public class Main {
         Human dealer;
 
         for (int i = 0; i < 4; i++) {
-            PL[i] = new Player();
+            PL[i] = new Player(0);
         }
 
         dealer = new Dealer();
@@ -29,8 +29,8 @@ public class Main {
             msg = scan.nextLine();
         }
 
-        // Ui ui = new Ui();
-        // ui.show();
+        Ui ui = new Ui();
+        ui.show();
 
         scan.close();
     }
