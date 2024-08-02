@@ -5,13 +5,14 @@ public class Card {
     private String cardName;
     boolean isTurned = false;
 
-    Card(int c0,String s0) {
+    Card(int c0, String s0) {
         cardNumber = c0;
         cardPoint = c0;
-        cardName = s0;
+        cardName = s0 + "-" + c0 + ".png";
         transrate(c0);
     }
-
+    
+    // cardNameの特殊名の設定
     void transrate(int cardsNumber) {
         switch (cardsNumber) {
             case 1:
@@ -35,11 +36,12 @@ public class Card {
                 break;
         }
     }
-    
+    // カードの得点数を返す
     int returnPoint() 
     {
         return cardPoint;
     }
+    // デバッグ用
     void debug() {
         System.out.println(cardNumber);
         System.out.println(UniqueCardsNumber);

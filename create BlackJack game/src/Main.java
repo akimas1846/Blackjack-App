@@ -24,14 +24,14 @@ public class Main {
         String msg = scan.nextLine();
         while (msg.equals("y")) {
 
-            PL[0].drow(deck);
+            PL[0].think(deck);
             PL[0].open();
             msg = scan.nextLine();
         }
 
-        Ui ui = new Ui();
-        ui.show();
+        // Ui ui = new Ui();
+        // ui.show();
 
-        scan.close();
+        // scan.close();
     }
 }

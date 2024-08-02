@@ -10,7 +10,7 @@ public abstract class Human {
     /*
 	手札
 	*/
-	protected List<Card> hand = new ArrayList<>();
+    protected List<Card> hand = new ArrayList<>();
     /*
     手札を返す
     */
@@ -37,23 +37,27 @@ public abstract class Human {
     /*
 	手札の初期化
 	*/
-	public void handClear() {
-		hand = new ArrayList<>();
-	}
-
-    public void drow(Card[][] cards) {
-        int i, j;
-        while (true) {
-            int indexOfCard = rand.nextInt(13);
-            int indexOfCardKind = rand.nextInt(4);
-
-            if (cards[indexOfCardKind][indexOfCard].isTurned == false) {
-                i = indexOfCardKind;
-                j = indexOfCard;
-                cards[i][j].debug();
-                break;
-            }
-        }
-        point += cards[i][j].returnPoint();
+    public void handClear() {
+        hand = new ArrayList<>();
     }
+    // NPCのカードを引く挙動    
+    abstract public void think(Card[][] cards);
+
+    // カードを引く挙動
+    public void drow(Card[][] cards) {
+
+		int i, j;
+		while (true) {
+			int indexOfCard = rand.nextInt(13);
+			int indexOfCardKind = rand.nextInt(4);
+
+			if (cards[indexOfCardKind][indexOfCard].isTurned == false) {
+				i = indexOfCardKind;
+				j = indexOfCard;
+				cards[i][j].debug();
+				break;
+			}
+		}
+		point += cards[i][j].returnPoint();
+	}
 }
