@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+
 class Player extends Human {
+	//手持ちのベル(残金)
     private Integer pocketMoney = 0;
 	// ゲームでベットしたベル
 	private Integer betMoney = 0;
@@ -6,16 +9,48 @@ class Player extends Human {
 	private boolean isStand = false;
 	// バーストしたかどうか
 	private boolean isBurst = false;
-	// splitを選択したかどうか
+	/*  //splitを選択したかどうか
 	private boolean isSplit = false;
 	// split後の手札をスタンドしたか
 	private boolean isSplitStand = false;
 	// split後の手札がバーストしたかどうか
 	private boolean isSplitBurst = false;
-    
-    public void handClear() {
-        clear(point);
-    }
+    */
+
+	/*
+	コンストラクタ
+    pocketMoney 初期で持たせる所持ベル
+    */
+	public Player(int pocketMoney) {
+		this.pocketMoney = pocketMoney;
+	}
+
+	/*
+	手札の初期化後、カードを2枚引いて手札に加える
+	deck デッキ
+	*/
+	@Override
+	public void firstAction(Deck deck){
+		//初期状態に戻す
+		betMoney = 0;
+		setStand(false);
+		setBurst(false);
+		/*
+		setSplit(false);
+		setSplitStand (false);
+		setSplitBurst(false);
+		*/
+
+		super.firstAction(deck);
+	}
+
+	/*
+	手札の初期化
+	*/
+    @Override
+	public void handClear() {
+		super.handClear();
+	}
 
     public void open(){
         System.out.println(point);
@@ -25,17 +60,25 @@ class Player extends Human {
         
     }
 
+	/*
     public boolean possibleSplit() {
         return true;
     }
+	*/
 
     public boolean possibleDoubleDown() {
-        return true;
+		boolean possibleDoubleDown = false;
+		if(super.hand.size() == 2 && betMoney * 2 <= pocketMoney){
+			possibleDoubleDown = true;
+		}
+		return possibleDoubleDown;
     }
 
+	/*
     public void split(){
 
     }
+	*/
 
     //所持ベル
     public int getPocketMoney() {
@@ -77,6 +120,7 @@ class Player extends Human {
 		this.isBurst = isBurst;
 	}
 
+	/*
     //isSplit splitを選択したか
     public boolean isSplit() {
 		return isSplit;
@@ -105,4 +149,5 @@ class Player extends Human {
 	public void setSplitBurst(boolean isSplitBurst) {
 		this.isSplitBurst = isSplitBurst;
 	}
+	*/
 }
