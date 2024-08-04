@@ -359,6 +359,7 @@ public class Ui {
         cardLabel2.setVisible(false);
         cardLabel3.setVisible(false);
         buttonPanel.setVisible(false); // 初期化時にボタンパネルを非表示にする
+        enableGameButtons();
         resetBetImages(); // ベット画像をリセット
     }
 
