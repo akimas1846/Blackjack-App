@@ -1,5 +1,6 @@
 class Dealer extends Human {
-    
+
+    private boolean isOpen = false;
     
     public void open() {
         System.out.println(point);
@@ -13,10 +14,15 @@ class Dealer extends Human {
         }
 	}
 	
-    private int getOpenOneScore() {
-        
-        return 0;
-    }
+    // isOpen カードの表が見えているか
+	public boolean isOpen() {
+		return isOpen;
+	}
+
+	// isOpen セットする isOpen
+	public void setOpen(boolean isOpen) {
+		this.isOpen = isOpen;
+	}
 
     public void sayYouWin(){
         System.out.println("おめでとうございます! あなたの勝ちです。");
