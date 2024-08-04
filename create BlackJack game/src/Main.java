@@ -29,9 +29,10 @@ public class Main {
             msg = scan.nextLine();
         }
 
+        scan.close();
+
         Ui ui = new Ui();
         ui.show();
 
-        scan.close();
     }
 }

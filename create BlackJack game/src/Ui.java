@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -127,14 +126,14 @@ public class Ui {
 
         // タイトルボタンの追加
         JButton titleButton = createStyledButton("Title");
-        titleButton.setBounds(1400, 900, 100, 50);
+        titleButton.setBounds(1200, 800, 100, 50);
         titleButton.addActionListener(e -> showStartPanel());
         gamePanel.add(titleButton);
 
         // ボタンパネルを非表示のまま作成
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 25, 10));
         buttonPanel.setBackground(new Color(0, 100, 0));
-        buttonPanel.setBounds(100, 850, 400, 80);
+        buttonPanel.setBounds(100, 780, 400, 80);
         buttonPanel.setVisible(false); // 初期状態では非表示
         // ゲームボタンの追加
         JButton raiseButton = createStyledButton("hit");
@@ -348,7 +347,7 @@ public class Ui {
         String[] betImagePaths = { "create BlackJack game\\image\\Bet1.png", "create BlackJack game\\image\\Bet2.png",
                 "create BlackJack game\\image\\Bet3.png", "create BlackJack game\\image\\Bet4.png" };
         int width = 100;
-        int height = 200;
+        int height = 100;
         // 画像の間隔
         betPanel = new JPanel();
         betPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 20));
@@ -365,7 +364,7 @@ public class Ui {
             betPanel.add(betImageLabel);
         }
 
-        betPanel.setBounds(350, 750, 800, 300);
+        betPanel.setBounds(350, 700, 800, 300);
         gamePanel.add(betPanel);
         gamePanel.revalidate();
         gamePanel.repaint();
