@@ -34,7 +34,7 @@ public class Ui {
     private JPanel buttonPanel;
     private JPanel betPanel; // ベットパネルの参照を保持
 
-    public Ui(Human[] players,Card[][] deck) {
+    public Ui(Human[] players, Card[][] deck) {
         // 初期画面
         frame = new JFrame();
         frame.setTitle("Blackjack Game");
@@ -183,7 +183,8 @@ public class Ui {
         deductCredit(players[0].thisBetting);
         players[0].thisBetting += players[0].thisBetting;
         bet += bet;
-        System.out.println("doubleが選択されました。" + " " +"現在のポイント" + players[0].point + "bet額" + bet + " " +  players[0].thisBetting);
+        System.out.println(
+                "doubleが選択されました。" + " " + "現在のポイント" + players[0].point + "bet額" + bet + " " + players[0].thisBetting);
     }
 
     // ルールの場面
@@ -233,13 +234,15 @@ public class Ui {
 
         // 再スタートするボタン
         JButton restartButton = createStyledButton("Restart");
-        restartButton.addActionListener(e -> restartGame());
+        restartButton.addActionListener(e -> {
+            resetValues();
+            showGamePanel();
+        });
         buttonPanel.add(restartButton);
         // タイトルのボタン
 
         JButton titleButton = createStyledButton("Title");
         titleButton.addActionListener(e -> {
-            restartGame();
             showStartPanel();
         });
         buttonPanel.add(titleButton);
@@ -291,9 +294,12 @@ public class Ui {
         CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
         cl.show(frame.getContentPane(), "Game");
         // カード
+        players[0].firstDrow(deck);
+
+        System.out.println(players[0].cardIDs.get(0));
         setCardImage(cardLabel1, "create BlackJack game\\image\\Back.png", 100, 225);
-        setCardImage(cardLabel2, "create BlackJack game\\image\\Back.png", 100, 225);
-        setCardImage(cardLabel3, "create BlackJack game\\image\\Back.png", 100, 225);
+        setCardImage(cardLabel2, players[0].cardIDs.get(0), 100, 225);
+        setCardImage(cardLabel3, players[0].cardIDs.get(1), 100, 225);
     }
 
     // ルール
@@ -307,7 +313,7 @@ public class Ui {
     private void showStartPanel() {
         CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
         cl.show(frame.getContentPane(), "Start");
-        players[0].drow(deck);
+        resetValues();
         resetBetImages(); // ベット画像をリセット
     }
 
@@ -318,7 +324,7 @@ public class Ui {
     }
 
     // restartGameにした時初期化できるようにしている
-    private void restartGame() {
+    private void resetValues() {
         credit = 500;
         bet = 0;
         roundCount = 5;
@@ -329,7 +335,6 @@ public class Ui {
         updateRoundDisplay();// ラウンドを表示
         buttonPanel.setVisible(false); // 初期化時にボタンパネルを非表示にする
         resetBetImages(); // ベット画像をリセット
-        showGamePanel();// ゲームパネルを表示
     }
 
     // ルールの画像設定

@@ -47,7 +47,7 @@ public abstract class Human {
     // カードを引く挙動
     public void drow(Card[][] cards) {
 
-		int i, j;
+        int i, j;
         while (true) {
             int indexOfCard = rand.nextInt(13);
             int indexOfCardKind = rand.nextInt(4);
@@ -58,8 +58,14 @@ public abstract class Human {
                 break;
             }
         }
-        
+
         point += cards[i][j].returnPoint();
         cardIDs.add(cards[i][j].returnCradName());
-	}
+    }
+    
+    public void firstDrow(Card[][] cards) 
+    {
+        drow(cards);
+        drow(cards);
+    }
 }

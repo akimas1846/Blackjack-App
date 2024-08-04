@@ -14,6 +14,7 @@ class Dealer extends Human {
 	}
 	
     private int getOpenOneScore() {
+        
         return 0;
     }
 

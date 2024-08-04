@@ -8,7 +8,7 @@ public class Card {
     Card(int c0, String s0) {
         cardNumber = c0;
         cardPoint = c0;
-        cardName = s0 + "-" + c0 + ".png";
+        cardName = "create BlackJack game\\image\\" + s0 + "-" + c0 + ".png";
         transrate(c0);
     }
     
