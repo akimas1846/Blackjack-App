@@ -56,7 +56,8 @@ public class Ui {
         // 境界線
         frame.setUndecorated(false);
         // フルスクリーンじゃない
-        frame.setSize(1200, 800);
+        frame.setResizable(false);
+        frame.setSize(900, 700);
         // フレームを表示
         frame.setVisible(true);
 
