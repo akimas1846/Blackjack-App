@@ -17,10 +17,6 @@ class Dealer extends Human {
         return 0;
     }
 
-    public void drawOver17() {
-    }
-    
-
     public void sayYouWin(){
         System.out.println("おめでとうございます! あなたの勝ちです。");
     }

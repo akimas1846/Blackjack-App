@@ -41,6 +41,11 @@ public class Card {
     {
         return cardPoint;
     }
+
+    String returnCradName() 
+    {
+        return cardName;
+    }
     // デバッグ用
     void debug() {
         System.out.println(cardNumber);

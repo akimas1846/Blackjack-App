@@ -2,8 +2,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 public abstract class Human {
-    int point,thisBetting = 0;
+    int point, thisBetting = 0;
+    List<String> cardIDs = new ArrayList<String>();
     Random rand = new Random();
 
     /*
@@ -56,6 +58,7 @@ public abstract class Human {
 				break;
 			}
 		}
-		point += cards[i][j].returnPoint();
+        point += cards[i][j].returnPoint();
+        cardIDs.add(cards[i][j].returnCradName());
 	}
 }

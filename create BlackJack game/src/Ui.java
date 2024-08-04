@@ -28,7 +28,9 @@ public class Ui {
     private int roundCount = 5;
 
     private Human[] players;
+    private Human[] bufferPlayers;
     private Card[][] deck;
+    private Card[][] bufferDeck;
     private JPanel buttonPanel;
     private JPanel betPanel; // ベットパネルの参照を保持
 
@@ -61,6 +63,8 @@ public class Ui {
 
         this.players = players;
         this.deck = deck;
+        bufferDeck = deck;
+        bufferPlayers = players;
 
     }
 
@@ -303,6 +307,7 @@ public class Ui {
     private void showStartPanel() {
         CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
         cl.show(frame.getContentPane(), "Start");
+        players[0].drow(deck);
         resetBetImages(); // ベット画像をリセット
     }
 
@@ -317,6 +322,8 @@ public class Ui {
         credit = 500;
         bet = 0;
         roundCount = 5;
+        players = bufferPlayers;
+        deck = bufferDeck;
         updateCreditDisplay();// クレジットを表示
         updateBetDisplay();// ベットを表示
         updateRoundDisplay();// ラウンドを表示
