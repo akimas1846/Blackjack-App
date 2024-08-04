@@ -48,16 +48,17 @@ public abstract class Human {
     public void drow(Card[][] cards) {
 
 		int i, j;
-		while (true) {
-			int indexOfCard = rand.nextInt(13);
-			int indexOfCardKind = rand.nextInt(4);
+        while (true) {
+            int indexOfCard = rand.nextInt(13);
+            int indexOfCardKind = rand.nextInt(4);
 
-			if (cards[indexOfCardKind][indexOfCard].isTurned == false) {
-				i = indexOfCardKind;
-				j = indexOfCard;
-				break;
-			}
-		}
+            if (cards[indexOfCardKind][indexOfCard].isTurned == false) {
+                i = indexOfCardKind;
+                j = indexOfCard;
+                break;
+            }
+        }
+        
         point += cards[i][j].returnPoint();
         cardIDs.add(cards[i][j].returnCradName());
 	}
