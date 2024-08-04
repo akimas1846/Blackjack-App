@@ -55,9 +55,8 @@ public class Ui {
         frame.add(gameOverPanel, "GameOver");
         // 境界線
         frame.setUndecorated(false);
-        // フルスクリーン
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        gd.setFullScreenWindow(frame);
+        // フルスクリーンじゃない
+        frame.setSize(1200, 800);
         // フレームを表示
         frame.setVisible(true);
 
