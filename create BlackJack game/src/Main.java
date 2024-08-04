@@ -22,16 +22,11 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
         String msg = scan.nextLine();
-        while (msg.equals("y")) {
-
-            PL[0].think(deck);
-            PL[0].open();
-            msg = scan.nextLine();
-        }
+        
 
         scan.close();
-
-        Ui ui = new Ui();
+        
+        Ui ui = new Ui(PL,deck);
         ui.show();
 
     }

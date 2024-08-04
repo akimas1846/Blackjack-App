@@ -3,8 +3,7 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class Human {
-    int point;
-
+    int point,thisBetting = 0;
     Random rand = new Random();
 
     /*
@@ -54,7 +53,6 @@ public abstract class Human {
 			if (cards[indexOfCardKind][indexOfCard].isTurned == false) {
 				i = indexOfCardKind;
 				j = indexOfCard;
-				cards[i][j].debug();
 				break;
 			}
 		}

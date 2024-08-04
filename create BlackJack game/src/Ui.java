@@ -27,10 +27,12 @@ public class Ui {
     private int bet = 0;
     private int roundCount = 5;
 
+    private Human[] players;
+    private Card[][] deck;
     private JPanel buttonPanel;
     private JPanel betPanel; // ベットパネルの参照を保持
 
-    public Ui() {
+    public Ui(Human[] players,Card[][] deck) {
         // 初期画面
         frame = new JFrame();
         frame.setTitle("Blackjack Game");
@@ -56,10 +58,14 @@ public class Ui {
         gd.setFullScreenWindow(frame);
         // フレームを表示
         frame.setVisible(true);
+
+        this.players = players;
+        this.deck = deck;
+
     }
 
     // 最初の画面
-    private void createStartPanel() {
+    void createStartPanel() {
         // レイアウトBorderLayout
         startPanel = new JPanel();
         startPanel.setBackground(new Color(0, 100, 0));
@@ -72,11 +78,11 @@ public class Ui {
         buttonPanel.setBackground(new Color(0, 100, 0));
         // ボタンがクリックされたらshowGamePanel
         JButton startButton = createStyledButton("Start Game");
-        startButton.addActionListener(e -> showGamePanel());
+        startButton.addActionListener(e -> showGamePanel()); // ここでshowGamePanel() [ゲーム画面]に移動
         buttonPanel.add(startButton);
         // スタイル付きボタンでView Rule
         JButton rulesButton = createStyledButton("View Rules");
-        rulesButton.addActionListener(e -> showRulesPanel());
+        rulesButton.addActionListener(e -> showRulesPanel());// ここでshowRulesPanel() [ルール説明画面]に移動
         buttonPanel.add(rulesButton);
         // ボタンを右に追加
         startPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -156,19 +162,24 @@ public class Ui {
     // レイズの動作
     private void raiseAction() {
         // ここにレイズの処理を追加
-        System.out.println("hitが選択されました。");
+        players[0].drow(deck);
+        System.out.println("hitが選択されました。" + " 現在のポイント" + players[0].point + "bet額" + bet);
     }
 
     // ステイの動作
     private void stayAction() {
         // ここにステイの処理を追加
-        System.out.println("stayが選択されました。");
+        System.out.println("stayが選択されました。" + " 現在のポイント" + players[0].point + "bet額" + bet);
     }
 
     // ダブルの動作
     private void doubleAction() {
         // ここにダブルの処理を追加
-        System.out.println("doubleが選択されました。");
+        players[0].drow(deck);
+        deductCredit(players[0].thisBetting);
+        players[0].thisBetting += players[0].thisBetting;
+        bet += bet;
+        System.out.println("doubleが選択されました。" + " " +"現在のポイント" + players[0].point + "bet額" + bet + " " +  players[0].thisBetting);
     }
 
     // ルールの場面
@@ -455,7 +466,7 @@ public class Ui {
                 addBet(betAmount);// ベット額を増やす
                 decrementRound();// ラウンド数を減らす()
                 buttonPanel.setVisible(true); // ベットが選択されたらボタンパネルを表示
-
+                players[0].thisBetting = betAmount;
                 moveBetImageToRight(betImageLabel);
 
                 cardLabel1.setVisible(true);
