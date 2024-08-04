@@ -174,6 +174,8 @@ public class Ui {
     private void stayAction() {
         // ここにステイの処理を追加
         System.out.println("stayが選択されました。" + " 現在のポイント" + players[0].point + "bet額" + bet);
+
+        disableGameButtons();
     }
 
     // ダブルの動作
@@ -185,6 +187,26 @@ public class Ui {
         bet += bet;
         System.out.println(
                 "doubleが選択されました。" + " " + "現在のポイント" + players[0].point + "bet額" + bet + " " + players[0].thisBetting);
+
+        disableGameButtons();
+    }
+
+    // ボタンを無効化するメソッド
+    private void disableGameButtons() {
+        for (Component component : buttonPanel.getComponents()) {
+            if (component instanceof JButton) {
+                component.setEnabled(false); // ボタンを無効化
+            }
+        }
+    }
+
+    // ボタンを有効化するメソッド
+    private void enableGameButtons() {
+        for (Component component : buttonPanel.getComponents()) {
+            if (component instanceof JButton) {
+                component.setEnabled(true); // ボタンを有効化
+            }
+        }
     }
 
     // ルールの場面
@@ -333,6 +355,9 @@ public class Ui {
         updateCreditDisplay();// クレジットを表示
         updateBetDisplay();// ベットを表示
         updateRoundDisplay();// ラウンドを表示
+        cardLabel1.setVisible(false);
+        cardLabel2.setVisible(false);
+        cardLabel3.setVisible(false);
         buttonPanel.setVisible(false); // 初期化時にボタンパネルを非表示にする
         resetBetImages(); // ベット画像をリセット
     }
