@@ -2,7 +2,7 @@
 create BlackJack game/bin
 
 # dependencies
-/bin
+create BlackJack game/bin
 
 # Log file
 *.log
