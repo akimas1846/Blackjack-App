@@ -1,3 +1,5 @@
+//Cardクラス、今ディラー側とプレイヤー側のカードが2枚だけなので増やしたい
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -20,7 +22,6 @@ public class Ui {
 
     private JLabel cardLabel1;
     private JLabel cardLabel2;
-    private JLabel cardLabel3;
     private JLabel creditLabel;
     private JLabel betLabel;
     private JLabel roundLabel;
@@ -110,21 +111,12 @@ public class Ui {
         cardLabel1 = new JLabel();
         cardLabel1.setPreferredSize(new Dimension(100, 225));
         cardLabel1.setBounds(650, 80, 100, 225);
-        cardLabel1.setVisible(false);
         gamePanel.add(cardLabel1);
 
         cardLabel2 = new JLabel();
         cardLabel2.setPreferredSize(new Dimension(100, 225));
         cardLabel2.setBounds(650, 500, 100, 225);
-        cardLabel2.setVisible(false);
         gamePanel.add(cardLabel2);
-
-        cardLabel3 = new JLabel(); // 3枚目のカードラベル
-        cardLabel3.setPreferredSize(new Dimension(100, 225));
-        cardLabel3.setBounds(750, 500, 100, 225); // 3枚目カードの位置
-        cardLabel3.setVisible(false);
-        gamePanel.add(cardLabel3);
-
         // タイトルボタンの追加
         JButton titleButton = createStyledButton("Title");
         titleButton.setBounds(1400, 900, 100, 50);
@@ -279,7 +271,6 @@ public class Ui {
         // カード
         setCardImage(cardLabel1, "create BlackJack game\\image\\Back.png", 100, 225);
         setCardImage(cardLabel2, "create BlackJack game\\image\\Back.png", 100, 225);
-        setCardImage(cardLabel3, "create BlackJack game\\image\\Back.png", 100, 225);
     }
 
     // ルール
@@ -458,10 +449,6 @@ public class Ui {
                 buttonPanel.setVisible(true); // ベットが選択されたらボタンパネルを表示
 
                 moveBetImageToRight(betImageLabel);
-
-                cardLabel1.setVisible(true);
-                cardLabel2.setVisible(true);
-                cardLabel3.setVisible(true);
             }
         }
     }
