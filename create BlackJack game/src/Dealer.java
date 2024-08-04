@@ -16,11 +16,7 @@ class Dealer extends Human {
     private int getOpenOneScore() {
         return 0;
     }
-
-    public void drawOver17() {
-    }
     
-
     public void sayYouWin(){
         System.out.println("おめでとうございます! あなたの勝ちです。");
     }
