@@ -118,32 +118,32 @@ public class Ui {
         // カードのラベル
         cardLabel1 = new JLabel();
         cardLabel1.setPreferredSize(new Dimension(100, 225));
-        cardLabel1.setBounds(650, 80, 100, 225);
+        cardLabel1.setBounds(450, 50, 100, 225);
         cardLabel1.setVisible(false);
         gamePanel.add(cardLabel1);
 
         cardLabel2 = new JLabel();
         cardLabel2.setPreferredSize(new Dimension(100, 225));
-        cardLabel2.setBounds(650, 500, 100, 225);
+        cardLabel2.setBounds(400, 330, 100, 225);
         cardLabel2.setVisible(false);
         gamePanel.add(cardLabel2);
 
         cardLabel3 = new JLabel(); // 3枚目のカードラベル
         cardLabel3.setPreferredSize(new Dimension(100, 225));
-        cardLabel3.setBounds(750, 500, 100, 225); // 3枚目カードの位置
+        cardLabel3.setBounds(500, 330, 100, 225); // 3枚目カードの位置
         cardLabel3.setVisible(false);
         gamePanel.add(cardLabel3);
 
         // タイトルボタンの追加
         JButton titleButton = createStyledButton("Title");
-        titleButton.setBounds(1200, 800, 100, 50);
+        titleButton.setBounds(770, 600, 70, 40);
         titleButton.addActionListener(e -> showStartPanel());
         gamePanel.add(titleButton);
 
         // ボタンパネルを非表示のまま作成
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 25, 10));
         buttonPanel.setBackground(new Color(0, 100, 0));
-        buttonPanel.setBounds(100, 780, 400, 80);
+        buttonPanel.setBounds(5, 500, 300, 80);
         buttonPanel.setVisible(false); // 初期状態では非表示
         // ゲームボタンの追加
         JButton raiseButton = createStyledButton("hit");
@@ -275,7 +275,7 @@ public class Ui {
     // ルールの画面、背景とか
     // 画像パスから画像を読み込み、表示するラベルを作成、新しいパネルに追加
     private void addRuleImage(String imagePath) {
-        ImageIcon ruleIcon = createResizedImageIcon(imagePath, 600, 800);
+        ImageIcon ruleIcon = createResizedImageIcon(imagePath, 450, 650);
         JLabel ruleLabel = new JLabel(ruleIcon);
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(new Color(0, 100, 0));
@@ -413,7 +413,7 @@ public class Ui {
             betPanel.add(betImageLabel);
         }
 
-        betPanel.setBounds(350, 700, 800, 300);
+        betPanel.setBounds(100, 550, 800, 300);
         gamePanel.add(betPanel);
         gamePanel.revalidate();
         gamePanel.repaint();
