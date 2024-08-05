@@ -176,6 +176,7 @@ public class Ui {
         System.out.println("stayが選択されました。" + " 現在のポイント" + players[0].point + "bet額" + bet);
 
         disableGameButtons();
+        dealerTurn();
     }
 
     // ダブルの動作
@@ -189,6 +190,53 @@ public class Ui {
                 "doubleが選択されました。" + " " + "現在のポイント" + players[0].point + "bet額" + bet + " " + players[0].thisBetting);
 
         disableGameButtons();
+        dealerTurn();
+    }
+
+    // ディーラーの番の処理を行うメソッド
+    private void dealerTurn() {
+        // ディーラーのアクション（例としてシンプルに実装）
+        while (players[1].point < 17) {
+            players[1].drow(deck);
+            System.out.println("ディーラーがカードを引きました。" + " 現在のポイント" + players[1].point);
+        }
+
+        // 勝敗判定を行う（シンプルな例）
+        String resultMessage;
+        ImageIcon resultImage;
+        if (players[1].point > 21 || players[0].point > players[1].point) {
+            resultMessage = "プレイヤーの勝ち！";
+            resultImage = loadImage("\\image\\win.png");
+        } else if (players[0].point == players[1].point) {
+            resultMessage = "引き分け！";
+            resultImage = loadImage("\\image\\draw.png");
+        } else {
+            resultMessage = "ディーラーの勝ち！";
+            resultImage = loadImage("\\image\\lose.png");
+        }
+        System.out.println(resultMessage);
+        // ディーラーのターンが終わった後に結果画像を表示
+        showResultImage(resultImage);
+    }
+
+    private void showResultImage(ImageIcon resultImage) {
+        // 結果画像を表示するための新しいパネルを作成
+        JPanel resultPanel = new JPanel();
+        resultPanel.setBackground(new Color(0, 100, 0));
+        resultPanel.setLayout(new BorderLayout());
+
+        JLabel resultLabel = new JLabel(resultImage);
+        resultPanel.add(resultLabel, BorderLayout.CENTER);
+
+        // ゲームパネルに追加して表示
+        gamePanel.add(resultPanel);
+        gamePanel.revalidate();
+        gamePanel.repaint();
+
+    }
+
+    private ImageIcon loadImage(String path) {
+        return new ImageIcon(getClass().getClassLoader().getResource(path));
     }
 
     // ボタンを無効化するメソッド
