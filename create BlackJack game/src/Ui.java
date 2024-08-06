@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Ui {
 
@@ -27,12 +29,18 @@ public class Ui {
     private int bet = 0;
     private int roundCount = 5;
 
+    String resultMessage;
+    ImageIcon resultImage = null;
+    private JPanel resultPanel;
+    private boolean nextRoundClicked = false;
+
     private Human[] players;
     private Human[] bufferPlayers;
     private Card[][] deck;
     private Card[][] bufferDeck;
     private JPanel buttonPanel;
     private JPanel betPanel; // ベットパネルの参照を保持
+
 
     public Ui(Human[] players, Card[][] deck) {
         // 初期画面
@@ -193,7 +201,6 @@ public class Ui {
         dealerTurn();
     }
 
-    // ディーラーの番の処理を行うメソッド
     private void dealerTurn() {
         // ディーラーのアクション（例としてシンプルに実装）
         while (players[1].point < 17) {
@@ -202,43 +209,82 @@ public class Ui {
         }
 
         // 勝敗判定を行う（シンプルな例）
-        String resultMessage;
-        ImageIcon resultImage;
         if (players[1].point > 21 || players[0].point > players[1].point) {
             resultMessage = "プレイヤーの勝ち！";
-            resultImage = loadImage("\\image\\win.png");
+            resultImage = loadImage("create BlackJack game\\image\\win.png");
         } else if (players[0].point == players[1].point) {
             resultMessage = "引き分け！";
-            resultImage = loadImage("\\image\\draw.png");
+            resultImage = loadImage("create BlackJack game\\image\\draw.png");
         } else {
             resultMessage = "ディーラーの勝ち！";
-            resultImage = loadImage("\\image\\lose.png");
+            resultImage = loadImage("create BlackJack game\\image\\lose.png");
         }
         System.out.println(resultMessage);
+
         // ディーラーのターンが終わった後に結果画像を表示
         showResultImage(resultImage);
     }
 
     private void showResultImage(ImageIcon resultImage) {
+        if (resultImage == null) {
+            System.err.println("結果画像がロードできませんでした。");
+            return;
+        }
+
+        System.out.println("描画準備");
+
         // 結果画像を表示するための新しいパネルを作成
-        JPanel resultPanel = new JPanel();
+        resultPanel = new JPanel();
         resultPanel.setBackground(new Color(0, 100, 0));
         resultPanel.setLayout(new BorderLayout());
-
+        resultPanel.setBounds(100, 300, 100, 100);
         JLabel resultLabel = new JLabel(resultImage);
         resultPanel.add(resultLabel, BorderLayout.CENTER);
+
+        // Next Round ボタンを作成
+        JButton nextRoundButton = createStyledButton("Next");
+        nextRoundButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hideResultImage();
+                resetValuesToNextGame();
+                showGamePanel();
+            }
+        });
+
+        // ボタンを結果パネルに追加
+        resultPanel.add(nextRoundButton, BorderLayout.SOUTH);
+        System.out.println("描画準備完了");
 
         // ゲームパネルに追加して表示
         gamePanel.add(resultPanel);
         gamePanel.revalidate();
         gamePanel.repaint();
+        System.out.println("描画完了");
 
+        
+    }
+
+    private void hideResultImage() {
+        if (resultPanel != null) {
+            gamePanel.remove(resultPanel);
+            gamePanel.revalidate();
+            gamePanel.repaint();
+            System.out.println("結果画像が非表示になりました");
+        }
     }
 
     private ImageIcon loadImage(String path) {
-        return new ImageIcon(getClass().getClassLoader().getResource(path));
+        File file = new File(path);
+        if (!file.exists()) {
+            System.err.println("リソースが見つかりません: " + path);
+            return null;
+        }
+        ImageIcon icon = new ImageIcon(path);
+        Image image = icon.getImage();
+        Image resizedImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImage);
     }
-
     // ボタンを無効化するメソッド
     private void disableGameButtons() {
         for (Component component : buttonPanel.getComponents()) {
@@ -289,6 +335,7 @@ public class Ui {
         addRuleImage("create BlackJack game\\image\\Rule2.png");
         addRuleImage("create BlackJack game\\image\\Rule3.png");
     }
+
 
     // Gameの終了画面
     private void createGameOverPanel() {
@@ -406,7 +453,49 @@ public class Ui {
         cardLabel1.setVisible(false);
         cardLabel2.setVisible(false);
         cardLabel3.setVisible(false);
+        resultImage = null;
+        for (int i = 0; i < deck.length; i++) {
+            for (int j = 0; j < deck[i].length; j++) {
+                deck[i][j].isTurned = false; // Assuming the method to reset the card is called setTurned
+            }
+        }
+
+        for (int i = 0; i < 2; i++) 
+        {
+            players[i].thisBetting = 0;
+            players[i].point = 0;
+            players[i].cardIDs.clear();
+        }
         buttonPanel.setVisible(false); // 初期化時にボタンパネルを非表示にする
+        enableGameButtons();
+        resetBetImages(); // ベット画像をリセット
+    }
+
+    private void resetValuesToNextGame() 
+    {
+        players = bufferPlayers;
+        deck = bufferDeck;
+        updateCreditDisplay();// クレジットを表示
+        updateBetDisplay();// ベットを表示
+        updateRoundDisplay();// ラウンドを表示
+        cardLabel1.setVisible(false);
+        cardLabel2.setVisible(false);
+        cardLabel3.setVisible(false);
+        buttonPanel.setVisible(false); // 初期化時にボタンパネルを非表示にする
+        resultImage = null;
+        for (int i = 0; i < deck.length; i++) {
+            for (int j = 0; j < deck[i].length; j++) {
+                deck[i][j].isTurned = false; // Assuming the method to reset the card is called setTurned
+            }
+        }
+
+        for (int i = 0; i < 2; i++) 
+        {
+            players[i].thisBetting = 0;
+            players[i].point = 0;
+            players[i].cardIDs.clear();
+        }
+    
         enableGameButtons();
         resetBetImages(); // ベット画像をリセット
     }

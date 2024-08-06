@@ -1,14 +1,13 @@
-import java.util.ArrayList;
 
 class Player extends Human {
 	// 手持ちのベル(残金)
-	private Integer pocketMoney = 0;
+	Integer pocketMoney = 0;
 	// ゲームでベットしたベル
-	private Integer betMoney = 0;
+	Integer betMoney = 0;
 	// スタンドしたかどうか
-	private boolean isStand = false;
+	boolean isStand = false;
 	// バーストしたかどうか
-	private boolean isBurst = false;
+	boolean isBurst = false;
 	/*
 	 * //splitを選択したかどうか
 	 * private boolean isSplit = false;
@@ -26,8 +25,7 @@ class Player extends Human {
 		this.pocketMoney = pocketMoney;
 	}
 
-	public void think(Card[][] cards) 
-	{
+	public void think(Card[][] cards) {
 		// do nothing.
 	}
 
@@ -72,7 +70,6 @@ class Player extends Human {
 	 * }
 	 */
 
-	
 	public boolean possibleDoubleDown() {
 		boolean possibleDoubleDown = false;
 		if (super.hand.size() == 2 && betMoney * 2 <= pocketMoney) {
@@ -81,7 +78,6 @@ class Player extends Human {
 		return possibleDoubleDown;
 	}
 
-	
 	/*
 	 * public void split(){
 	 * 
