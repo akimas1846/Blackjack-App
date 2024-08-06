@@ -42,7 +42,7 @@ public class Card {
         return cardPoint;
     }
 
-    String returnCradName() 
+    String returnCardName() 
     {
         return cardName;
     }

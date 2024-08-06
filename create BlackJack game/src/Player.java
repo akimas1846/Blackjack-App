@@ -8,6 +8,7 @@ class Player extends Human {
 	boolean isStand = false;
 	// バーストしたかどうか
 	boolean isBurst = false;
+	
 	/*
 	 * //splitを選択したかどうか
 	 * private boolean isSplit = false;

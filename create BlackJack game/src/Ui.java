@@ -8,6 +8,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ui {
 
@@ -22,25 +24,23 @@ public class Ui {
     private JLabel cardLabel1;
     private JLabel cardLabel2;
     private JLabel cardLabel3;
+    private List<JLabel> playerCardLabels = new ArrayList<>();
+    private List<JLabel> dealerCardLabels = new ArrayList<>();
     private JLabel creditLabel;
     private JLabel betLabel;
     private JLabel roundLabel;
     private int credit = 500;
     private int bet = 0;
     private int roundCount = 5;
-
+    private boolean isDoubled;
     String resultMessage;
     ImageIcon resultImage = null;
     private JPanel resultPanel;
-    private boolean nextRoundClicked = false;
 
     private Human[] players;
-    private Human[] bufferPlayers;
     private Card[][] deck;
-    private Card[][] bufferDeck;
     private JPanel buttonPanel;
     private JPanel betPanel; // ベットパネルの参照を保持
-
 
     public Ui(Human[] players, Card[][] deck) {
         // 初期画面
@@ -71,9 +71,6 @@ public class Ui {
 
         this.players = players;
         this.deck = deck;
-        bufferDeck = deck;
-        bufferPlayers = players;
-
     }
 
     // 最初の画面
@@ -171,18 +168,57 @@ public class Ui {
         addBetImages();
     }
 
+    // カードを動的に追加する関数
+    private void addPlayerCardLabel(ImageIcon cardImage) {
+        JLabel newCardLabel = new JLabel(cardImage);
+        newCardLabel.setPreferredSize(new Dimension(100, 225));
+        newCardLabel.setVisible(true);
+
+        // カードラベルの位置を調整（例：カードを横に並べる）
+        int xOffset = 350 + (playerCardLabels.size() * 60); // カードの間隔を10pxに設定
+        newCardLabel.setBounds(xOffset, 330, 120, 192);
+
+        gamePanel.add(newCardLabel);
+        playerCardLabels.add(newCardLabel);
+
+        gamePanel.revalidate();
+        gamePanel.repaint();
+    }
+    // 先ほどの動作のDealer版
+    private void addDealerCardLabel(ImageIcon cardImage) {
+        JLabel newCardLabel = new JLabel(cardImage);
+        newCardLabel.setPreferredSize(new Dimension(100, 225));
+        newCardLabel.setVisible(true);
+
+        // カードラベルの位置を調整（例：カードを横に並べる）
+        int xOffset = 350 + (dealerCardLabels.size() * 60); // カードの間隔を10pxに設定
+        newCardLabel.setBounds(xOffset, 110, 120, 192);
+
+        gamePanel.add(newCardLabel);
+        dealerCardLabels.add(newCardLabel);
+
+        gamePanel.revalidate();
+        gamePanel.repaint();
+    }
+
     // レイズの動作
     private void raiseAction() {
         // ここにレイズの処理を追加
         players[0].drow(deck);
+        ImageIcon cardImage = loadCardImage(players[0].cardIDs.get(players[0].cardIDs.size() - 1));
+        addPlayerCardLabel(cardImage);
         System.out.println("hitが選択されました。" + " 現在のポイント" + players[0].point + "bet額" + bet);
+
+        if (players[0].point > 21) {
+            disableGameButtons();
+            dealerTurn();
+        }
     }
 
     // ステイの動作
     private void stayAction() {
         // ここにステイの処理を追加
         System.out.println("stayが選択されました。" + " 現在のポイント" + players[0].point + "bet額" + bet);
-
         disableGameButtons();
         dealerTurn();
     }
@@ -194,25 +230,60 @@ public class Ui {
         deductCredit(players[0].thisBetting);
         players[0].thisBetting += players[0].thisBetting;
         bet += bet;
+        isDoubled = true;
+        ImageIcon cardImage = loadCardImage(players[0].cardIDs.get(players[0].cardIDs.size() - 1));
+        addPlayerCardLabel(cardImage);
+
         System.out.println(
                 "doubleが選択されました。" + " " + "現在のポイント" + players[0].point + "bet額" + bet + " " + players[0].thisBetting);
 
         disableGameButtons();
         dealerTurn();
     }
+    // 裏面を表面にする
+    private void updateDealerCardLabel() {
+        // player[1].cardIDs.get(1) のカード画像パスを取得
+        String cardImagePath = players[1].cardIDs.get(1);
 
+        // 画像をロード
+        ImageIcon cardImage = loadCardImage(cardImagePath);
+
+        // dealerCardLabels が空でないかチェック
+        if (!dealerCardLabels.isEmpty() && cardImage != null) {
+            // 0 番目の JLabel を取得
+            JLabel dealerCardLabel = dealerCardLabels.get(0);
+
+            // JLabel のアイコンを更新
+            dealerCardLabel.setIcon(cardImage);
+
+            // UI の再描画
+            gamePanel.revalidate();
+            gamePanel.repaint();
+        } else {
+            System.err.println("Dealer card label is empty or card image is null.");
+        }
+    }
+
+    // ディーラーの挙動
     private void dealerTurn() {
         // ディーラーのアクション（例としてシンプルに実装）
+        System.out.println(players[1].point);
+        updateDealerCardLabel();
         while (players[1].point < 17) {
             players[1].drow(deck);
+            addDealerCardLabel(loadCardImage(players[1].cardIDs.get(players[1].cardIDs.size() - 1)));
             System.out.println("ディーラーがカードを引きました。" + " 現在のポイント" + players[1].point);
         }
-
         // 勝敗判定を行う（シンプルな例）
-        if (players[1].point > 21 || players[0].point > players[1].point) {
+        if ((players[1].point > 21 || players[0].point > players[1].point) && players[0].point <= 21) {
             resultMessage = "プレイヤーの勝ち！";
+            if (isDoubled) {
+                credit += bet * 2;
+            } else {
+                credit += bet;
+            }
             resultImage = loadImage("create BlackJack game\\image\\win.png");
-        } else if (players[0].point == players[1].point) {
+        } else if (players[0].point == players[1].point || (players[0].point > 21 && players[1].point > 21)) {
             resultMessage = "引き分け！";
             resultImage = loadImage("create BlackJack game\\image\\draw.png");
         } else {
@@ -225,6 +296,7 @@ public class Ui {
         showResultImage(resultImage);
     }
 
+    // 勝ち負けを表示する関数
     private void showResultImage(ImageIcon resultImage) {
         if (resultImage == null) {
             System.err.println("結果画像がロードできませんでした。");
@@ -262,9 +334,8 @@ public class Ui {
         gamePanel.repaint();
         System.out.println("描画完了");
 
-        
     }
-
+    // 先ほどの表示をなくすもの
     private void hideResultImage() {
         if (resultPanel != null) {
             gamePanel.remove(resultPanel);
@@ -273,7 +344,7 @@ public class Ui {
             System.out.println("結果画像が非表示になりました");
         }
     }
-
+    // アイコン用のロード
     private ImageIcon loadImage(String path) {
         File file = new File(path);
         if (!file.exists()) {
@@ -285,6 +356,19 @@ public class Ui {
         Image resizedImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
+    // Card用のロード
+    private ImageIcon loadCardImage(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            System.err.println("リソースが見つかりません: " + path);
+            return null;
+        }
+        ImageIcon icon = new ImageIcon(path);
+        Image image = icon.getImage();
+        Image resizedImage = image.getScaledInstance(120, 192, Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImage);
+    }
+
     // ボタンを無効化するメソッド
     private void disableGameButtons() {
         for (Component component : buttonPanel.getComponents()) {
@@ -335,7 +419,6 @@ public class Ui {
         addRuleImage("create BlackJack game\\image\\Rule2.png");
         addRuleImage("create BlackJack game\\image\\Rule3.png");
     }
-
 
     // Gameの終了画面
     private void createGameOverPanel() {
@@ -412,11 +495,22 @@ public class Ui {
         cl.show(frame.getContentPane(), "Game");
         // カード
         players[0].firstDrow(deck);
+        players[1].firstDrow(deck);
 
-        System.out.println(players[0].cardIDs.get(0));
-        setCardImage(cardLabel1, "create BlackJack game\\image\\Back.png", 100, 225);
-        setCardImage(cardLabel2, players[0].cardIDs.get(0), 100, 225);
-        setCardImage(cardLabel3, players[0].cardIDs.get(1), 100, 225);
+        addPlayerCardLabel(loadCardImage(players[0].cardIDs.get(0)));
+        addPlayerCardLabel(loadCardImage(players[0].cardIDs.get(1)));
+        addDealerCardLabel(loadCardImage("create BlackJack game\\image\\Back.png"));
+        addDealerCardLabel(loadCardImage(players[1].cardIDs.get(0)));
+
+        if (players[0].points.get(0) == 1 && players[0].points.get(1) == 13
+                || players[0].points.get(1) == 1 && players[0].points.get(0) == 13) {
+            players[0].point = 21;
+        }
+        if (players[1].points.get(0) == 1 && players[1].points.get(1) == 13
+                || players[1].points.get(1) == 1 && players[1].points.get(0) == 13) {
+            players[1].point = 21;
+        }
+
     }
 
     // ルール
@@ -445,8 +539,7 @@ public class Ui {
         credit = 500;
         bet = 0;
         roundCount = 5;
-        players = bufferPlayers;
-        deck = bufferDeck;
+        isDoubled = false;
         updateCreditDisplay();// クレジットを表示
         updateBetDisplay();// ベットを表示
         updateRoundDisplay();// ラウンドを表示
@@ -460,21 +553,32 @@ public class Ui {
             }
         }
 
-        for (int i = 0; i < 2; i++) 
-        {
+        for (int i = 0; i < 2; i++) {
             players[i].thisBetting = 0;
             players[i].point = 0;
             players[i].cardIDs.clear();
         }
+        for (JLabel cardLabel : playerCardLabels) {
+            cardLabel.setVisible(false);
+        }
+
+        for (JLabel cardLabel : dealerCardLabels) {
+            cardLabel.setVisible(false);
+        }
+        playerCardLabels.clear();
+        dealerCardLabels.clear();
+        if (resultPanel != null) {
+            gamePanel.remove(resultPanel);
+        }
+
         buttonPanel.setVisible(false); // 初期化時にボタンパネルを非表示にする
         enableGameButtons();
         resetBetImages(); // ベット画像をリセット
     }
-
-    private void resetValuesToNextGame() 
-    {
-        players = bufferPlayers;
-        deck = bufferDeck;
+    // 次のラウンドに移行時にする初期化
+    private void resetValuesToNextGame() {
+        bet = 0;
+        isDoubled = false;
         updateCreditDisplay();// クレジットを表示
         updateBetDisplay();// ベットを表示
         updateRoundDisplay();// ラウンドを表示
@@ -482,6 +586,16 @@ public class Ui {
         cardLabel2.setVisible(false);
         cardLabel3.setVisible(false);
         buttonPanel.setVisible(false); // 初期化時にボタンパネルを非表示にする
+        for (JLabel cardLabel : playerCardLabels) {
+            cardLabel.setVisible(false);
+        }
+
+        for (JLabel cardLabel : dealerCardLabels) {
+            cardLabel.setVisible(false);
+        }
+        playerCardLabels.clear();
+        dealerCardLabels.clear();
+        gamePanel.remove(resultPanel);
         resultImage = null;
         for (int i = 0; i < deck.length; i++) {
             for (int j = 0; j < deck[i].length; j++) {
@@ -489,13 +603,13 @@ public class Ui {
             }
         }
 
-        for (int i = 0; i < 2; i++) 
-        {
+        for (int i = 0; i < 2; i++) {
             players[i].thisBetting = 0;
             players[i].point = 0;
             players[i].cardIDs.clear();
+            players[i].points.clear();
         }
-    
+
         enableGameButtons();
         resetBetImages(); // ベット画像をリセット
     }
@@ -571,7 +685,7 @@ public class Ui {
                 return 0;
         }
     }
-
+    // 以下3つのupdateはcredit,bet,roundsの更新を含めた関数
     private void updateCreditDisplay() {
         creditLabel.setText("Credit: $" + credit);
     }
@@ -634,6 +748,7 @@ public class Ui {
             this.betImageLabel = betImageLabel;
         }
 
+
         // マウスクリックのイベント
         public void mouseClicked(MouseEvent e) {
             if (credit >= betAmount) {
@@ -643,7 +758,6 @@ public class Ui {
                 buttonPanel.setVisible(true); // ベットが選択されたらボタンパネルを表示
                 players[0].thisBetting = betAmount;
                 moveBetImageToRight(betImageLabel);
-
                 cardLabel1.setVisible(true);
                 cardLabel2.setVisible(true);
                 cardLabel3.setVisible(true);

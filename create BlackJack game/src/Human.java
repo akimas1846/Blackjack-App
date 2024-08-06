@@ -6,6 +6,8 @@ import java.util.Random;
 public abstract class Human {
     int point, thisBetting = 0;
     List<String> cardIDs = new ArrayList<String>();
+    List<Integer> points = new ArrayList<Integer>();
+    
     Random rand = new Random();
 
     /*
@@ -60,7 +62,8 @@ public abstract class Human {
         }
 
         point += cards[i][j].returnPoint();
-        cardIDs.add(cards[i][j].returnCradName());
+        points.add(cards[i][j].returnPoint());
+        cardIDs.add(cards[i][j].returnCardName());
     }
     
     public void firstDrow(Card[][] cards) 
