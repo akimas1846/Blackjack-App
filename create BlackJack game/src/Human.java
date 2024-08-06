@@ -5,14 +5,12 @@ import java.util.Random;
 
 public abstract class Human {
     int point, thisBetting = 0;
-    List<String> cardIDs = new ArrayList<String>();
-    List<Integer> points = new ArrayList<Integer>();
     
     Random rand = new Random();
 
-    /*
-	手札
-	*/
+    //手札
+    List<String> cardIDs = new ArrayList<String>();
+    List<Integer> points = new ArrayList<Integer>();
     protected List<Card> hand = new ArrayList<>();
     /*
     手札を返す
@@ -29,9 +27,6 @@ public abstract class Human {
 
     /* 手札を開示する */
     public abstract void open();
-
-    public void allOpen(){
-    }
 
     public void clear(int point) {
         point = 0;
